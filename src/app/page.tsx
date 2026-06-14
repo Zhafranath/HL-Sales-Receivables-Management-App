@@ -1,65 +1,130 @@
-import Image from "next/image";
+import { verifySession } from '@/lib/auth';
+import { getCustomers } from '@/lib/db/customers';
+import { getProducts } from '@/lib/db/products';
+import { getTransactionLineData } from '@/lib/calculations';
+import { createClient } from '@/lib/supabase/server';
+import DashboardClient from './DashboardClient';
+import type { Transaction, MonthlyDatum, TopCustomer } from '@/types';
 
-export default function Home() {
+async function getTransactionsWithItems(): Promise<Transaction[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('transactions')
+    .select('*, customer:customers(*), items:transaction_items(*, product:products(*))')
+    .order('tanggal', { ascending: false })
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+function buildMonthlyData(transactions: Transaction[]): MonthlyDatum[] {
+  const now = new Date();
+  const months: { key: string; label: string }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const label = d.toLocaleDateString('id-ID', { month: 'short', year: '2-digit' });
+    months.push({ key, label });
+  }
+
+  const map: Record<string, { omzetLM: number; omzetBR: number; laba: number }> = {};
+  for (const m of months) {
+    map[m.key] = { omzetLM: 0, omzetBR: 0, laba: 0 };
+  }
+
+  for (const tx of transactions) {
+    if (tx.status !== 'Lunas' || tx.is_bonus) continue;
+    const d = new Date(tx.tanggal);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    if (!map[key]) continue;
+    const computed = getTransactionLineData(tx);
+    for (const item of computed.items) {
+      if (!item.product) continue;
+      if (item.product.tipe === 'LM') {
+        map[key].omzetLM += item.lineOmzet;
+      } else {
+        map[key].omzetBR += item.lineOmzet;
+      }
+    }
+    map[key].laba += computed.transactionLaba;
+  }
+
+  return months.map((m) => ({ ...m, ...map[m.key] }));
+}
+
+function buildTopCustomers(transactions: Transaction[]): TopCustomer[] {
+  const map: Record<string, { name: string; omzet: number; piutang: number }> = {};
+
+  for (const tx of transactions) {
+    const name = tx.customer?.nama || '-';
+    if (!map[tx.customer_id]) {
+      map[tx.customer_id] = { name, omzet: 0, piutang: 0 };
+    }
+    const computed = getTransactionLineData(tx);
+    if (tx.status === 'Lunas' && !tx.is_bonus) {
+      map[tx.customer_id].omzet += computed.transactionOmzet;
+    } else if (tx.status === 'Piutang') {
+      map[tx.customer_id].piutang += computed.amountOwed;
+    }
+  }
+
+  return Object.values(map)
+    .sort((a, b) => b.omzet - a.omzet)
+    .slice(0, 5);
+}
+
+export default async function DashboardPage() {
+  await verifySession();
+
+  const [customers, products, transactions] = await Promise.all([
+    getCustomers(),
+    getProducts(),
+    getTransactionsWithItems(),
+  ]);
+
+  let totalPiutang = 0;
+  let totalLaba = 0;
+  let lunasCount = 0;
+  let piutangCount = 0;
+  let omzetLM = 0;
+  let omzetBR = 0;
+
+  for (const tx of transactions) {
+    const computed = getTransactionLineData(tx);
+    if (tx.status === 'Piutang') {
+      totalPiutang += computed.amountOwed;
+      piutangCount++;
+    } else {
+      if (!tx.is_bonus) {
+        totalLaba += computed.transactionLaba;
+        for (const item of computed.items) {
+          if (!item.product) continue;
+          if (item.product.tipe === 'LM') omzetLM += item.lineOmzet;
+          else omzetBR += item.lineOmzet;
+        }
+      }
+      lunasCount++;
+    }
+  }
+
+  const monthlyData = buildMonthlyData(transactions);
+  const topCustomers = buildTopCustomers(transactions);
+  const recentTransactions = transactions.slice(0, 5);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <DashboardClient
+      customerCount={customers.length}
+      productCount={products.length}
+      totalPiutang={totalPiutang}
+      totalLaba={totalLaba}
+      lunasCount={lunasCount}
+      piutangCount={piutangCount}
+      omzetLM={omzetLM}
+      omzetBR={omzetBR}
+      monthlyData={monthlyData}
+      topCustomers={topCustomers}
+      transactions={recentTransactions}
+    />
   );
 }
