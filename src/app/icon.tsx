@@ -1,37 +1,58 @@
-import type { Metadata } from 'next';
+import { ImageResponse } from 'next/og';
 
-export const metadata: Metadata = {};
+export const size = {
+  width: 32,
+  height: 32,
+};
+
+export const contentType = 'image/png';
 
 export default function Icon() {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="hlFavGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#18181b" />
-          <stop offset="100%" stopColor="#3f3f46" />
-        </linearGradient>
-      </defs>
-      <rect x="1" y="1" width="30" height="30" rx="7" fill="url(#hlFavGrad)" />
-      <rect x="1" y="1" width="30" height="30" rx="7" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
-      <text
-        x="16"
-        y="20.5"
-        textAnchor="middle"
-        fill="white"
-        fontFamily="system-ui, -apple-system, sans-serif"
-        fontSize="13"
-        fontWeight="700"
-        letterSpacing="-0.3"
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #18181b, #3f3f46)',
+          borderRadius: '7px',
+          border: '1px solid rgba(255,255,255,0.1)',
+        }}
       >
-        HL
-      </text>
-      <rect x="7" y="22.5" width="10" height="1.8" rx="0.9" fill="#fbbf24" />
-    </svg>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <span
+            style={{
+              color: 'white',
+              fontSize: '13px',
+              fontWeight: 700,
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              letterSpacing: '-0.3px',
+            }}
+          >
+            HL
+          </span>
+          <div
+            style={{
+              width: '10px',
+              height: '1.8px',
+              borderRadius: '0.9px',
+              background: '#fbbf24',
+              marginTop: '2px',
+            }}
+          />
+        </div>
+      </div>
+    ),
+    { ...size }
   );
 }
