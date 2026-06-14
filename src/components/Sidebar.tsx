@@ -37,14 +37,14 @@ export default function Sidebar() {
       initial={{ x: -30, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="no-print w-60 h-dvh sticky top-0 flex flex-col bg-gradient-to-b from-white via-zinc-50/50 to-zinc-100/80 border-r border-zinc-200/80 shadow-[1px_0_8px_rgba(0,0,0,0.03)] z-10"
+      className="no-print w-60 h-dvh sticky top-0 flex flex-col bg-gradient-to-b from-white via-neutral-50/50 to-neutral-100/80 border-r border-neutral-200/80 shadow-[1px_0_8px_rgba(0,0,0,0.03)] z-10"
     >
-      <div className="px-4 py-5 border-b border-zinc-200/60">
+      <div className="px-4 py-5 border-b border-neutral-200/60">
         <Logo />
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        <p className="px-3 mb-2 text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">
+        <p className="px-3 mb-2 text-[10px] font-semibold text-neutral-400 uppercase tracking-widest">
           Menu
         </p>
         {navItems.map((item, idx) => {
@@ -63,14 +63,14 @@ export default function Sidebar() {
                 href={item.href}
                 className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative ${
                   isActive
-                    ? 'bg-zinc-900 text-white shadow-md shadow-zinc-900/10'
-                    : 'text-zinc-500 hover:bg-zinc-200/60 hover:text-zinc-800'
+                    ? 'bg-emerald-700 text-white shadow-md shadow-emerald-700/10'
+                    : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-neutral-800'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="sidebar-active"
-                    className="absolute inset-0 bg-zinc-900 rounded-xl"
+                    className="absolute inset-0 bg-emerald-700 rounded-xl"
                     transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                   />
                 )}
@@ -89,7 +89,7 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="p-3 pb-10 border-t border-zinc-100">
+      <div className="px-3 py-2 pb-3 border-t border-neutral-100 mt-auto">
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -97,7 +97,7 @@ export default function Sidebar() {
           whileHover={{ scale: 1.02, backgroundColor: '#fee2e2' }}
           whileTap={{ scale: 0.97 }}
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-500 hover:text-red-600 transition-all duration-200"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-neutral-500 hover:text-red-600 transition-all duration-200"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

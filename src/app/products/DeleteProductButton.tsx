@@ -50,7 +50,7 @@ export default function DeleteProductButton({
 
       <Modal open={open} onClose={() => setOpen(false)} title="Hapus Produk">
         <div className="space-y-4">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-neutral-600">
             Hapus produk <strong>{name}</strong>? Data akan di-soft-delete dan tidak muncul di pilihan baru. Riwayat transaksi tetap tersimpan.
           </p>
           <div className="flex gap-3">
@@ -63,7 +63,7 @@ export default function DeleteProductButton({
             </button>
             <button
               onClick={() => setOpen(false)}
-              className="px-4 py-2 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+              className="px-4 py-2 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
             >
               Batal
             </button>

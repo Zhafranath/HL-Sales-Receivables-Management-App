@@ -32,13 +32,13 @@ export default function ErrorPage({
           <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
       </motion.div>
-      <h2 className="text-lg font-semibold text-zinc-900 mb-1">Terjadi kesalahan</h2>
-      <p className="text-sm text-zinc-500 mb-6">Gagal memuat halaman. Silakan coba lagi.</p>
+      <h2 className="text-lg font-semibold text-neutral-900 mb-1">Terjadi kesalahan</h2>
+      <p className="text-sm text-neutral-500 mb-6">Gagal memuat halaman. Silakan coba lagi.</p>
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
         onClick={reset}
-        className="px-5 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-medium hover:bg-zinc-800 transition-colors shadow-sm"
+        className="px-5 py-2.5 bg-emerald-700 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors shadow-sm"
       >
         Coba Lagi
       </motion.button>

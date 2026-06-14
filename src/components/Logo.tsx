@@ -64,10 +64,10 @@ export default function Logo() {
       </div>
 
       <div className="flex flex-col gap-px">
-        <h1 className="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">
+        <h1 className="text-[15px] font-bold text-neutral-900 leading-none tracking-tight">
           HL App
         </h1>
-        <p className="text-[10px] font-medium text-zinc-400 tracking-[0.06em] uppercase leading-none">
+        <p className="text-[10px] font-medium text-neutral-400 tracking-[0.06em] uppercase leading-none">
           Sales &amp; Receivables
         </p>
       </div>

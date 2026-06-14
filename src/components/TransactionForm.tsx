@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createClient } from '@/lib/supabase/client';
 import { formatRupiah, computeDiscountedPrice } from '@/lib/calculations';
 import { useToast } from '@/components/Toast';
+import TypeBadge from '@/components/TypeBadge';
 import type { ProductType, Customer, Product } from '@/types';
 
 interface LineItem {
@@ -228,18 +229,18 @@ export default function TransactionForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1.5">Tanggal</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1.5">Tanggal</label>
           <input
             type="date"
             value={tanggal}
             onChange={(e) => setTanggal(e.target.value)}
             required
-            className="w-full px-3 py-2.5 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+          <label className="block text-sm font-medium text-neutral-700 mb-1.5">
             Nomor Bon <span className="text-red-500">*</span>
           </label>
           <input
@@ -248,8 +249,8 @@ export default function TransactionForm({
             onChange={(e) => { setNomorBon(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.nomor_bon; return next; }); }}
             required
             placeholder="contoh: B-001"
-            className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-              fieldErrors.nomor_bon ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+            className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+              fieldErrors.nomor_bon ? 'border-red-400 bg-red-50' : 'border-neutral-300'
             }`}
           />
           <AnimatePresence>
@@ -267,7 +268,7 @@ export default function TransactionForm({
             className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg border-2 cursor-pointer transition-all ${
               isBonus
                 ? 'border-purple-300 bg-purple-50 text-purple-700'
-                : 'border-zinc-200 text-zinc-600 hover:border-zinc-300'
+                : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
             }`}
           >
             <input
@@ -282,15 +283,15 @@ export default function TransactionForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Customer <span className="text-red-500">*</span>
         </label>
         <select
           value={customerId}
           onChange={(e) => { setCustomerId(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.customer; return next; }); }}
           required
-          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-            fieldErrors.customer ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+            fieldErrors.customer ? 'border-red-400 bg-red-50' : 'border-neutral-300'
           }`}
         >
           <option value="">Pilih Customer...</option>
@@ -311,13 +312,13 @@ export default function TransactionForm({
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-medium text-zinc-700">Produk</label>
+          <label className="text-sm font-medium text-neutral-700">Produk</label>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
             onClick={addItem}
-            className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+            className="text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
           >
             + Tambah Produk
           </motion.button>
@@ -335,17 +336,17 @@ export default function TransactionForm({
               return (
                 <motion.div
                   key={item.key}
-                  initial={{ opacity: 0, x: -10, height: 0 }}
+                  initial={{ opacity: 0, x: -20, height: 0 }}
                   animate={{ opacity: 1, x: 0, height: 'auto' }}
-                  exit={{ opacity: 0, x: 10, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex gap-2 items-start p-3 border rounded-lg hover:border-zinc-300 transition-colors"
+                  exit={{ opacity: 0, x: 20, height: 0 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 28, mass: 0.7 }}
+                  className="flex gap-2 items-start p-3 border rounded-lg hover:border-neutral-300 transition-colors"
                 >
                   <div className="flex-1">
                     <select
                       value={item.product_id}
                       onChange={(e) => updateItem(item.key, 'product_id', e.target.value)}
-                      className="w-full px-2 py-2 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-all"
+                      className="w-full px-2 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
                     >
                       <option value="">Pilih Produk...</option>
                       {products.map((p) => (
@@ -360,7 +361,7 @@ export default function TransactionForm({
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="text-xs text-zinc-500 mt-1.5 flex gap-3"
+                          className="text-xs text-neutral-500 mt-1.5 flex gap-3"
                         >
                           <span>Base: {formatRupiah(basePrice)}</span>
                           <motion.span
@@ -372,15 +373,7 @@ export default function TransactionForm({
                             Diskon: {formatRupiah(discountedPrice)}
                           </motion.span>
                           {tipe && (
-                            <span
-                              className={`text-xs px-1.5 py-0.5 rounded-full ${
-                                tipe === 'LM'
-                                  ? 'bg-blue-100 text-blue-700'
-                                  : 'bg-amber-100 text-amber-700'
-                              }`}
-                            >
-                              {tipe}
-                            </span>
+                            <TypeBadge tipe={tipe} />
                           )}
                         </motion.div>
                       )}
@@ -404,7 +397,7 @@ export default function TransactionForm({
                       onChange={(e) =>
                         updateItem(item.key, 'quantity', parseInt(e.target.value) || 0)
                       }
-                      className="w-full px-2 py-2 border border-zinc-300 rounded-lg text-sm text-center focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-all"
+                      className="w-full px-2 py-2 border border-neutral-300 rounded-lg text-sm text-center focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
                     />
                   </div>
 
@@ -423,7 +416,7 @@ export default function TransactionForm({
                     whileTap={{ scale: 0.8 }}
                     type="button"
                     onClick={() => removeItem(item.key)}
-                    className="text-zinc-400 hover:text-red-500 text-sm pt-2 transition-colors"
+                    className="text-neutral-400 hover:text-red-500 text-sm pt-2 transition-colors"
                     disabled={items.length <= 1}
                   >
                     ✕
@@ -444,23 +437,23 @@ export default function TransactionForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1.5">Ongkir (Rp)</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1.5">Ongkir (Rp)</label>
           <input
             type="number"
             min="0"
             value={ongkir}
             onChange={(e) => setOngkir(e.target.value)}
-            className="w-full px-3 py-2.5 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1.5">Deskripsi</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1.5">Deskripsi</label>
           <input
             type="text"
             value={deskripsi}
             onChange={(e) => setDeskripsi(e.target.value)}
-            className="w-full px-3 py-2.5 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
           />
         </div>
       </div>
@@ -468,10 +461,10 @@ export default function TransactionForm({
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-zinc-50 rounded-xl p-4 space-y-1.5"
+        className="bg-neutral-50 rounded-xl p-4 space-y-1.5"
       >
         <div className="flex justify-between text-sm">
-          <span className="text-zinc-500">Total Omzet</span>
+          <span className="text-neutral-500">Total Omzet</span>
           <motion.span
             key={totalOmzet}
             initial={{ scale: 1.15, color: '#059669' }}
@@ -482,7 +475,7 @@ export default function TransactionForm({
           </motion.span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-zinc-500">Ongkir</span>
+          <span className="text-neutral-500">Ongkir</span>
           <span className="font-medium">{formatRupiah(ongkirNum)}</span>
         </div>
         <div className="flex justify-between text-sm pt-1.5 border-t font-semibold">
@@ -503,7 +496,7 @@ export default function TransactionForm({
           whileTap={{ scale: 0.97 }}
           type="submit"
           disabled={saving}
-          className="px-6 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-medium hover:bg-zinc-800 disabled:opacity-50 transition-colors shadow-sm"
+          className="px-6 py-2.5 bg-emerald-700 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 disabled:opacity-50 transition-colors shadow-sm"
         >
           {saving ? (
             <span className="flex items-center gap-2">
@@ -525,7 +518,7 @@ export default function TransactionForm({
           whileTap={{ scale: 0.97 }}
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2.5 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+          className="px-6 py-2.5 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
         >
           Batal
         </motion.button>

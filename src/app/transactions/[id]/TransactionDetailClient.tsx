@@ -9,6 +9,7 @@ import Modal from '@/components/Modal';
 import { useToast } from '@/components/Toast';
 import Link from 'next/link';
 import { fadeIn, staggerContainer, staggerItem, AnimatedCard } from '@/components/animations';
+import TypeBadge from '@/components/TypeBadge';
 import type { Transaction } from '@/types';
 
 export default function TransactionDetailClient({
@@ -73,10 +74,10 @@ export default function TransactionDetailClient({
         className="flex items-center justify-between"
       >
         <div>
-          <Link href="/transactions" className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors">
+          <Link href="/transactions" className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors">
             ← Kembali
           </Link>
-          <h1 className="text-2xl font-bold text-zinc-900">
+          <h1 className="text-2xl font-bold text-neutral-900">
             Bon {tx.nomor_bon}
             {tx.is_bonus && (
               <motion.span
@@ -94,7 +95,7 @@ export default function TransactionDetailClient({
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
               href={`/transactions/${tx.id}/edit`}
-              className="px-4 py-2 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+              className="px-4 py-2 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
             >
               Edit
             </Link>
@@ -120,18 +121,18 @@ export default function TransactionDetailClient({
         </div>
       </motion.div>
 
-      <AnimatedCard className="p-6 space-y-4">
+      <AnimatedCard className="p-6 space-y-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div>
-            <p className="text-xs text-zinc-500">Tanggal</p>
+            <p className="text-xs text-neutral-500">Tanggal</p>
             <p className="font-medium">{tx.tanggal}</p>
           </div>
           <div>
-            <p className="text-xs text-zinc-500">Customer</p>
+            <p className="text-xs text-neutral-500">Customer</p>
             <p className="font-medium">{tx.customer?.nama || '-'}</p>
           </div>
           <div>
-            <p className="text-xs text-zinc-500">Status</p>
+            <p className="text-xs text-neutral-500">Status</p>
             <motion.span
               whileHover={{ scale: 1.05 }}
               className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -144,44 +145,39 @@ export default function TransactionDetailClient({
             </motion.span>
           </div>
           <div>
-            <p className="text-xs text-zinc-500">Tgl Bayar</p>
+            <p className="text-xs text-neutral-500">Tgl Bayar</p>
             <p className="font-medium">{tx.payment_date || '-'}</p>
           </div>
         </div>
 
         {tx.deskripsi && (
           <div>
-            <p className="text-xs text-zinc-500">Deskripsi</p>
+            <p className="text-xs text-neutral-500">Deskripsi</p>
             <p className="text-sm">{tx.deskripsi}</p>
           </div>
         )}
 
         <div>
-          <p className="text-xs text-zinc-500 mb-2">Item</p>
+          <p className="text-xs text-neutral-500 mb-2">Item</p>
           <div className="border rounded-lg overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-zinc-50 border-b">
-                  <th className="text-left p-2.5 font-medium text-xs text-zinc-500">Produk</th>
-                  <th className="text-center p-2.5 font-medium text-xs text-zinc-500">Tipe</th>
-                  <th className="text-right p-2.5 font-medium text-xs text-zinc-500">Qty</th>
-                  <th className="text-right p-2.5 font-medium text-xs text-zinc-500">Harga/Unit</th>
-                  <th className="text-right p-2.5 font-medium text-xs text-zinc-500">Omzet</th>
+                <tr className="bg-neutral-50 border-b">
+                  <th className="text-left p-2.5 font-medium text-xs text-neutral-500">Produk</th>
+                  <th className="text-center p-2.5 font-medium text-xs text-neutral-500">Tipe</th>
+                  <th className="text-right p-2.5 font-medium text-xs text-neutral-500">Qty</th>
+                  <th className="text-right p-2.5 font-medium text-xs text-neutral-500">Harga/Unit</th>
+                  <th className="text-right p-2.5 font-medium text-xs text-neutral-500">Omzet</th>
                 </tr>
               </thead>
               <motion.tbody variants={staggerContainer} initial="hidden" animate="visible">
                 {computed.items.map((ci, idx) => (
-                  <motion.tr key={idx} variants={staggerItem} className="border-b last:border-0 hover:bg-zinc-50/50">
+                  <motion.tr key={idx} variants={staggerItem} className="border-b last:border-0 hover:bg-neutral-50/50">
                     <td className="p-2.5 font-medium">{ci.product?.nama || '-'}</td>
                     <td className="p-2.5 text-center">
-                      <motion.span
-                        whileHover={{ scale: 1.05 }}
-                        className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${
-                          ci.product?.tipe === 'LM' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
-                        }`}
-                      >
-                        {ci.product?.tipe || '-'}
-                      </motion.span>
+                      {ci.product?.tipe ? (
+                        <TypeBadge tipe={ci.product.tipe as any} />
+                      ) : '-'}
                     </td>
                     <td className="p-2.5 text-right">{ci.item.quantity}</td>
                     <td className="p-2.5 text-right">
@@ -207,11 +203,11 @@ export default function TransactionDetailClient({
 
         <div className="border-t pt-4 space-y-1 max-w-xs ml-auto">
           <div className="flex justify-between text-sm">
-            <span className="text-zinc-500">Omzet</span>
+            <span className="text-neutral-500">Omzet</span>
             <span className="font-medium">{formatRupiah(computed.transactionOmzet)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-zinc-500">Ongkir</span>
+            <span className="text-neutral-500">Ongkir</span>
             <span className="font-medium">{formatRupiah(tx.ongkir)}</span>
           </div>
           <motion.div
@@ -239,16 +235,16 @@ export default function TransactionDetailClient({
 
       <Modal open={settleModal} onClose={() => setSettleModal(false)} title="Konfirmasi Pelunasan">
         <div className="space-y-4">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-neutral-600">
             Transaksi akan ditandai Lunas. Omzet dan Laba akan diakui.
           </p>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Tanggal Pelunasan</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Tanggal Pelunasan</label>
             <input
               type="date"
               value={settleDate}
               onChange={(e) => setSettleDate(e.target.value)}
-              className="w-full px-3 py-2 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+              className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
             />
           </div>
           <div className="flex gap-3">
@@ -265,7 +261,7 @@ export default function TransactionDetailClient({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setSettleModal(false)}
-              className="px-4 py-2 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+              className="px-4 py-2 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
             >
               Batal
             </motion.button>
@@ -275,7 +271,7 @@ export default function TransactionDetailClient({
 
       <Modal open={deleteModal} onClose={() => setDeleteModal(false)} title="Hapus Transaksi">
         <div className="space-y-4">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-neutral-600">
             Hapus transaksi <strong>{tx.nomor_bon}</strong>? Tindakan tidak dapat dibatalkan.
           </p>
           <div className="flex gap-3">
@@ -292,7 +288,7 @@ export default function TransactionDetailClient({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setDeleteModal(false)}
-              className="px-4 py-2 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+              className="px-4 py-2 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
             >
               Batal
             </motion.button>

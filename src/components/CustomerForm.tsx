@@ -153,7 +153,7 @@ export default function CustomerForm({
       )}
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Nama Customer <span className="text-red-500">*</span>
         </label>
         <input
@@ -161,8 +161,8 @@ export default function CustomerForm({
           value={nama}
           onChange={(e) => { setNama(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.nama; return next; }); }}
           required
-          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-            fieldErrors.nama ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+            fieldErrors.nama ? 'border-red-400 bg-red-50' : 'border-neutral-300'
           }`}
         />
         <AnimatePresence>
@@ -175,7 +175,7 @@ export default function CustomerForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Threshold Bonus (Rp)
         </label>
         <input
@@ -183,7 +183,7 @@ export default function CustomerForm({
           min="0"
           value={bonusThreshold}
           onChange={(e) => setBonusThreshold(e.target.value)}
-          className="w-full px-3 py-2.5 border border-zinc-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+          className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
         />
       </div>
 
@@ -217,7 +217,7 @@ export default function CustomerForm({
           whileTap={{ scale: 0.97 }}
           type="submit"
           disabled={saving}
-          className="px-6 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-medium hover:bg-zinc-800 disabled:opacity-50 transition-colors shadow-sm"
+          className="px-6 py-2.5 bg-emerald-700 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 disabled:opacity-50 transition-colors shadow-sm"
         >
           {saving ? (
             <span className="flex items-center gap-2">
@@ -239,7 +239,7 @@ export default function CustomerForm({
           whileTap={{ scale: 0.97 }}
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2.5 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+          className="px-6 py-2.5 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
         >
           Batal
         </motion.button>
@@ -282,17 +282,17 @@ function DiscountSection({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="border border-zinc-200 rounded-lg p-4 hover:border-zinc-300 transition-colors"
+      className="border border-neutral-200 rounded-lg p-4 hover:border-neutral-300 transition-colors"
     >
       <div className="flex items-center justify-between mb-2.5">
-        <h3 className="text-sm font-medium text-zinc-700">
+        <h3 className="text-sm font-medium text-neutral-700">
           {label}
           {effectiveLabel && (
             <motion.span
               key={effectiveLabel}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-xs text-zinc-400 ml-1.5 font-normal"
+              className="text-xs text-neutral-400 ml-1.5 font-normal"
             >
               {effectiveLabel}
             </motion.span>
@@ -303,13 +303,13 @@ function DiscountSection({
           whileTap={{ scale: 0.95 }}
           type="button"
           onClick={onAdd}
-          className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+          className="text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
         >
           + Tambah Diskon
         </motion.button>
       </div>
       {steps.length === 0 ? (
-        <p className="text-xs text-zinc-400 italic">Belum ada diskon</p>
+        <p className="text-xs text-neutral-400 italic">Belum ada diskon</p>
       ) : (
         <motion.div className="flex flex-wrap gap-2 items-center">
           {steps.map((step, idx) => (
@@ -328,8 +328,8 @@ function DiscountSection({
                   value={step.value}
                   onChange={(e) => onUpdate(step.id, e.target.value)}
                   placeholder="0"
-                  className={`w-16 px-2 py-1.5 border rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all ${
-                    fieldErrors[`${errorPrefix}_${step.id}`] ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+                  className={`w-16 px-2 py-1.5 border rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${
+                    fieldErrors[`${errorPrefix}_${step.id}`] ? 'border-red-400 bg-red-50' : 'border-neutral-300'
                   }`}
                 />
                 {fieldErrors[`${errorPrefix}_${step.id}`] && (
@@ -338,12 +338,12 @@ function DiscountSection({
                   </span>
                 )}
               </div>
-              <span className="text-xs text-zinc-500">%</span>
+              <span className="text-xs text-neutral-500">%</span>
               {idx < steps.length - 1 && (
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-xs text-zinc-300 mx-0.5"
+                  className="text-xs text-neutral-300 mx-0.5"
                 >
                   →
                 </motion.span>

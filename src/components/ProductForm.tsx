@@ -101,7 +101,7 @@ export default function ProductForm({
       )}
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Nama Produk <span className="text-red-500">*</span>
         </label>
         <input
@@ -109,8 +109,8 @@ export default function ProductForm({
           value={nama}
           onChange={(e) => { setNama(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.nama; return next; }); }}
           required
-          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-            fieldErrors.nama ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+            fieldErrors.nama ? 'border-red-400 bg-red-50' : 'border-neutral-300'
           }`}
         />
         <AnimatePresence>
@@ -123,7 +123,7 @@ export default function ProductForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Tipe <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-3">
@@ -139,7 +139,7 @@ export default function ProductForm({
                   ? t === 'LM'
                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                     : 'border-amber-500 bg-amber-50 text-amber-700'
-                  : 'border-zinc-200 text-zinc-500 hover:border-zinc-300'
+                  : 'border-neutral-200 text-neutral-500 hover:border-neutral-300'
               }`}
             >
               {t}
@@ -149,7 +149,7 @@ export default function ProductForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Harga Modal
         </label>
         <input
@@ -157,8 +157,8 @@ export default function ProductForm({
           min="0"
           value={hargaModal}
           onChange={(e) => { setHargaModal(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.hargaModal; return next; }); }}
-          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-            fieldErrors.hargaModal ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+            fieldErrors.hargaModal ? 'border-red-400 bg-red-50' : 'border-neutral-300'
           }`}
         />
         <AnimatePresence>
@@ -171,7 +171,7 @@ export default function ProductForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-neutral-700 mb-1.5">
           Harga Jual (Base)
         </label>
         <input
@@ -179,8 +179,8 @@ export default function ProductForm({
           min="0"
           value={hargaBase}
           onChange={(e) => { setHargaBase(e.target.value); setFieldErrors((prev) => { const next = { ...prev }; delete next.hargaBase; return next; }); }}
-          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all ${
-            fieldErrors.hargaBase ? 'border-red-400 bg-red-50' : 'border-zinc-300'
+          className={`w-full px-3 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+            fieldErrors.hargaBase ? 'border-red-400 bg-red-50' : 'border-neutral-300'
           }`}
         />
         <AnimatePresence>
@@ -198,7 +198,7 @@ export default function ProductForm({
           whileTap={{ scale: 0.97 }}
           type="submit"
           disabled={saving}
-          className="px-6 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-medium hover:bg-zinc-800 disabled:opacity-50 transition-colors shadow-sm"
+          className="px-6 py-2.5 bg-emerald-700 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 disabled:opacity-50 transition-colors shadow-sm"
         >
           {saving ? (
             <span className="flex items-center gap-2">
@@ -220,7 +220,7 @@ export default function ProductForm({
           whileTap={{ scale: 0.97 }}
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2.5 border border-zinc-300 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
+          className="px-6 py-2.5 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
         >
           Batal
         </motion.button>

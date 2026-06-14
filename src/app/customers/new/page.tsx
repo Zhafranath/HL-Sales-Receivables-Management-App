@@ -6,7 +6,7 @@ export default async function NewCustomerPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-zinc-900">Tambah Customer</h1>
+      <h1 className="text-2xl font-bold text-neutral-900">Tambah Customer</h1>
       <div className="bg-white rounded-xl border p-6">
         <CustomerForm />
       </div>

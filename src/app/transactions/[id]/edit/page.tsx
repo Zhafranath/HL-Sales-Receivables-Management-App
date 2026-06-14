@@ -16,9 +16,9 @@ export default async function EditTransactionPage({
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-zinc-900">Edit Bon</h1>
+      <h1 className="text-2xl font-bold text-neutral-900">Edit Bon</h1>
       <div className="bg-white rounded-xl border p-6">
-        <Suspense fallback={<div className="text-sm text-zinc-500">Memuat form...</div>}>
+        <Suspense fallback={<div className="text-sm text-neutral-500">Memuat form...</div>}>
           <TransactionForm
             initialData={{
               id: tx.id,

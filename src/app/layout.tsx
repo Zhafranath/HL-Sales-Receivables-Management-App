@@ -24,7 +24,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-dvh antialiased`}>
-      <body className="h-dvh bg-gradient-to-br from-zinc-50 via-white to-zinc-100">
+      <body className="h-dvh bg-gradient-to-br from-neutral-50 via-white to-neutral-100">
         <ToastProvider>
           <AppShell>{children}</AppShell>
         </ToastProvider>

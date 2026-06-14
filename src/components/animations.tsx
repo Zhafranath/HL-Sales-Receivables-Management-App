@@ -44,7 +44,7 @@ export function AnimatedCard({
     <motion.div
       whileHover={{ y: -2, boxShadow: '0 8px 25px rgba(0,0,0,0.08)' }}
       whileTap={{ scale: 0.995 }}
-      className={`bg-white rounded-xl border border-zinc-200/80 transition-colors ${className}`}
+      className={`bg-white rounded-xl border border-neutral-200/80 transition-colors ${className}`}
     >
       {children}
     </motion.div>

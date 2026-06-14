@@ -17,42 +17,40 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 grid place-items-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm bg-white/20"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 5 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
+            initial={{ opacity: 0, scale: 0.92, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.95, filter: 'blur(2px)' }}
+            transition={{ type: 'spring', stiffness: 350, damping: 28, mass: 0.8 }}
+            className="relative bg-white rounded-2xl shadow-2xl shadow-black/20 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-neutral-100"
           >
-            <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-lg font-semibold">{title}</h2>
+            <div className="flex items-center justify-between p-5 pb-3">
+              <h2 className="text-lg font-bold text-neutral-900">{title}</h2>
               <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileHover={{ scale: 1.1, rotate: 90, backgroundColor: '#f5f5f5' }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="text-zinc-400 hover:text-zinc-600 text-xl leading-none transition-colors w-7 h-7 flex items-center justify-center rounded-full hover:bg-zinc-100"
+                className="text-neutral-400 hover:text-neutral-700 text-lg leading-none transition-colors w-8 h-8 flex items-center justify-center rounded-full"
               >
                 ✕
               </motion.button>
             </div>
-            <div className="p-4">{children}</div>
+            <div className="px-5 pb-5">{children}</div>
           </motion.div>
         </div>
       )}
